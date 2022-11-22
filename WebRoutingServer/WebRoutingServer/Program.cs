@@ -18,7 +18,7 @@ namespace WebRoutingServer
             Uri httpUrl = new Uri("http://localhost:8090/MyService/SimpleCalculator");
 
             //Create ServiceHost
-            ServiceHost host = new ServiceHost(typeof(Service1), httpUrl);
+            ServiceHost host = new ServiceHost(typeof(ServiceItinerary), httpUrl);
 
             // Multiple end points can be added to the Service using AddServiceEndpoint() method.
             // Host.Open() will run the service, so that it can be used by any client.
@@ -28,7 +28,7 @@ namespace WebRoutingServer
             // ServiceHost host = new ServiceHost(typeof(MyCalculatorService.SimpleCalculator), httpUrl, tcpUrl);
 
             //Add a service endpoint
-            host.AddServiceEndpoint(typeof(IService1), new WSHttpBinding(), "");
+            host.AddServiceEndpoint(typeof(IServiceItinerary), new WSHttpBinding(), "");
 
             //Enable metadata exchange
             ServiceMetadataBehavior smb = new ServiceMetadataBehavior();
