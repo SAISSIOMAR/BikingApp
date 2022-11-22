@@ -42,4 +42,98 @@ namespace WebRoutingServer
             set { stringValue = value; }
         }
     }
+
+    [DataContract]
+    public class Feature
+    {
+        [DataMember]
+        public Properties properties { get; set; }
+
+        [DataMember]
+
+        public Geometry geometry { get; set; }
+        [DataMember]
+
+        public double[] bbox { get; set; }
+
+        public Feature()
+        {
+        }
+    }
+    [DataContract]
+    public class Geometry
+    {
+        [DataMember]
+
+        public List<List<double>> coordinates { get; set; }
+        [DataMember]
+
+        public string type { get; set; }
+
+        public Geometry() { }
+    }
+    [DataContract]
+    public class Itinerary
+    {
+        [DataMember]
+        public Feature[] features { get; set; }
+
+        [DataMember]
+        public double[] bbox { get; set; }
+        public Itinerary()
+        {
+
+        }
+    }
+    [DataContract]
+    public class Properties
+    {
+        [DataMember]
+        public Segment[] segments { get; set; }
+        public Properties() { }
+
+
+    }
+    [DataContract]
+
+    public class Segment
+    {
+        [DataMember]
+
+        public double distance { get; set; }
+        [DataMember]
+
+        public double duration { get; set; }
+        [DataMember]
+
+        public Step[] steps { get; set; }
+        public Segment()
+        {
+
+        }
+    }
+    [DataContract]
+
+    public class Step
+    {
+        [DataMember]
+
+        public double distance { get; set; }
+        [DataMember]
+
+        public double duration { get; set; }
+        [DataMember]
+
+        public int type { get; set; }
+        [DataMember]
+
+        public string instruction { get; set; }
+        [DataMember]
+
+        public string name { get; set; }
+
+        public Step() { }
+
+
+    }
 }
