@@ -13,7 +13,6 @@ namespace WebRoutingServer
     {
         [OperationContract]
         string GetData(int value);
-
         
 
         // TODO: ajoutez vos opérations de service ici
