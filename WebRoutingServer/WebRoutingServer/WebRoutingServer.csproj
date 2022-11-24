@@ -45,6 +45,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IServiceItinerary.cs" />
+    <Compile Include="management\jcdecaux\Availabilities.cs" />
+    <Compile Include="management\jcdecaux\Position.cs" />
+    <Compile Include="management\jcdecaux\Stand.cs" />
+    <Compile Include="management\jcdecaux\Station.cs" />
     <Compile Include="management\openstreet\Feature.cs" />
     <Compile Include="management\openstreet\Geometry.cs" />
     <Compile Include="management\openstreet\Itinerary.cs" />
