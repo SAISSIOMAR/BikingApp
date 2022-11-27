@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.Text;
+using WebRoutingServer.management.openstreet;
 
 namespace WebRoutingServer
 {
@@ -12,8 +13,8 @@ namespace WebRoutingServer
     public interface IServiceItinerary
     {
         [OperationContract]
-        string GetData(int value);
-        
+        Itinerary GetItinerary(String source, String Destination);
+
 
         // TODO: ajoutez vos opérations de service ici
     }
