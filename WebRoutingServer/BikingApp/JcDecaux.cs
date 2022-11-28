@@ -23,6 +23,9 @@ namespace WebRoutingServer
 
 
 
+
+        
+       
         
         
         private List<JCDStation> getStationsOfContract(JCDContract contract)
@@ -61,7 +64,13 @@ namespace WebRoutingServer
             }
             return closestStations;
         }
-
+        public async Task SetStation(string number, string name)
+        {
+            {
+                // Call asynchronous network methods in a try/catch block to handle exception
+ 
+            }
+        }
         static async Task<string> JCDecauxAPICall(string url, string query)
         {
             HttpClient client = new HttpClient();
@@ -69,6 +78,7 @@ namespace WebRoutingServer
             response.EnsureSuccessStatusCode(); //throws exception 
             return await response.Content.ReadAsStringAsync(); //return les villes
         }
+        
         
 
     }
