@@ -1,10 +1,12 @@
-﻿using System;
+﻿using Nest;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.ServiceModel;
 using System.ServiceModel.Description;
 using System.Text;
 using System.Threading.Tasks;
+using WebRoutingServer;
 
 namespace BikingApp
 {
@@ -40,7 +42,9 @@ namespace BikingApp
 
             Console.WriteLine("Service is host at " + DateTime.Now.ToString());
             Console.WriteLine("Host is running... Press <Enter> key to stop");
-            Console.ReadLine();
+
+
+            Console.WriteLine(OpenStreet.GetInstance().getOSMFeatureFromStrAddress("65 Rue de France, 06000 Nice").Count);
 
         }
     }

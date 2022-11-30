@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.Text;
+using WebRoutingServer;
 
 namespace BikingApp
 {
@@ -12,7 +13,7 @@ namespace BikingApp
     public interface IServiceItinerary
     {
         [OperationContract]
-        String GetItinerary(String source, String Destination);
+        List<Step> getItinerary(String source, String Destination);
 
 
         // TODO: ajoutez vos opérations de service ici

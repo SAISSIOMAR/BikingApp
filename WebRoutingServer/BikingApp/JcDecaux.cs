@@ -8,8 +8,7 @@ using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 using System.Text.Json;
-using WebRoutingServer.management.openstreet;
-
+using System.ServiceModel.Configuration;
 
 namespace WebRoutingServer
 {
@@ -17,30 +16,52 @@ namespace WebRoutingServer
     {
         private static string  apiUrl = "https://api.jcdecaux.com/vls/v3/";
         private static string apikey = "894af26c2e703588ce385d3676ed52b166f9e904";
+        private static JcDecaux instance;
         private static string query = "apiKey=894af26c2e703588ce385d3676ed52b166f9e904"  ;
-        private static string response = JCDecauxAPICall(apiUrl,query).Result;
-        List<JCDContract> allContracts = JsonSerializer.Deserialize<List<JCDContract>>(response);
+        private static string response = JCDecauxAPICall("contracts").Result;
+        private static List<JCDContract> contracts = JsonSerializer.Deserialize<List<JCDContract>>(response);
+
+        public static async Task<string> JCDecauxAPICall(string url = "", string query = "")
+        {
+            HttpClient client = new HttpClient();
+            HttpResponseMessage response = await client.GetAsync(apiUrl + url + "?apiKey=894af26c2e703588ce385d3676ed52b166f9e904" + "&" + query);
+            response.EnsureSuccessStatusCode();
+            return await response.Content.ReadAsStringAsync();
+        }
+
+        public static JcDecaux GetInstance()
+        {
+            if (instance == null)
+            {
+                instance = new JcDecaux();
+            }
+            return instance;
+        }
+
+        public static List<JCDContract> getContracts()
+        {
+            return contracts;
+        }
 
 
 
 
-        
-       
-        
-        
-        private List<JCDStation> getStationsOfContract(JCDContract contract)
+
+        public static List<JCDStation> getStationsOfContract(JCDContract contract)
         {
             string response = JCDecauxAPICall("stations", "contract=" + contract.name).Result;
             return JsonSerializer.Deserialize<List<JCDStation>>(response);
         }
-        private JCDStation getClosestStation(Feature feature, List<JCDStation> stations)
+        public JCDStation getClosestStation(Feature feature, List<JCDStation> stations,bool start)
         {
             JCDStation closestStation = null;
             double closestDistanceFromStation = 0;
             foreach (JCDStation station in stations)
-            {
+            {   
+                
                 double distanceCalculated = Distance(feature.geometry.coordinates, station.position.ToDoubleArray());
-                if (closestStation == null || distanceCalculated <= closestDistanceFromStation)
+                int standsOrBikesAvailability = start ? station.totalStands.availabilities.bikes : station.totalStands.availabilities.stands;
+                if (closestStation == null || (distanceCalculated <= closestDistanceFromStation && standsOrBikesAvailability > 0))
                 {
                     closestStation = station;
                     closestDistanceFromStation = distanceCalculated;
@@ -48,38 +69,47 @@ namespace WebRoutingServer
             }
             return closestStation;
         }
-        private double Distance(List<double> coordinates, double[] position)
+        
+
+        
+        private double Distance(double[] coordinates, double[] position)
         {
             double x = coordinates[0] - position[0];
             double y = coordinates[1] - position[1];
             return Math.Sqrt(x * x + y * y);
         }
-        public List<JCDStation> getClosestStations(Feature feature)
+        // get contract by name and get closest station by contract
+
+        //get contract by name 
+        public JCDContract getContractByName(string name)
         {
-            List<JCDStation> closestStations = new List<JCDStation>();
-            foreach (JCDContract contract in allContracts)
+            foreach (JCDContract contract in contracts)
             {
-                List<JCDStation> stations = getStationsOfContract(contract);
-                closestStations.Add(getClosestStation(feature, stations));
+                if (contract.name == name)
+                {
+                    return contract;
+                }
             }
-            return closestStations;
+            return null;
         }
-        public async Task SetStation(string number, string name)
+        //get closest station by contract
+        public JCDStation getClosestStationByContract(JCDContract contract, Feature feature , bool start)
         {
-            {
-                // Call asynchronous network methods in a try/catch block to handle exception
- 
-            }
+            List<JCDStation> stations = getStationsOfContract(contract);
+            return getClosestStation(feature, stations,start);
         }
-        static async Task<string> JCDecauxAPICall(string url, string query)
-        {
-            HttpClient client = new HttpClient();
-            HttpResponseMessage response = await client.GetAsync(url + "?" + query); // attendre qu'une requete asyncrone soi finis 
-            response.EnsureSuccessStatusCode(); //throws exception 
-            return await response.Content.ReadAsStringAsync(); //return les villes
-        }
-        
-        
+        //get closest contracts by coordinates
+
+
+
+
+
+
+
+       
+
+
+
 
     }
     public class JCDContract
@@ -92,6 +122,7 @@ namespace WebRoutingServer
         public int number { get; set; }
         public string name { get; set; }
         public Position position { get; set; }
+        public Stands totalStands { get; set; }
     }
 
     public class Position
@@ -106,5 +137,16 @@ namespace WebRoutingServer
             res[1] = longitude;
             return res;
         }
+    }
+    public class Stands
+    {
+        public Availability availabilities { get; set; }
+        public int capacity { get; set; }
+    }
+
+    public class Availability
+    {
+        public int bikes { get; set; }
+        public int stands { get; set; }
     }
 }
