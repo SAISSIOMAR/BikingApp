@@ -46,15 +46,17 @@ namespace BikingApp
             {
                 Console.WriteLine(item.name);
             }
-            JCDStation st = JcDecaux.GetInstance().getClosestStation(OpenStreet.GetInstance().getOSMFeatureFromStrAddress("105 Rue de Lodi, 13006 Marseille").First(), JcDecaux.getStationsOfContract(JcDecaux.getContracts()[23]), true);
-           
+            JCDStation st = JcDecaux.GetInstance().getClosestStation(OpenStreet.GetInstance().getOSMFeatureFromStrAddress("34 Bd Lavéran, 13013 Marseille").First(),
+                JcDecaux.getStationsOfContract(JcDecaux.getContracts()[23]),true);
+            JCDStation st2 = JcDecaux.GetInstance().getClosestStation(OpenStreet.GetInstance().getOSMFeatureFromStrAddress("Chem. de la Thuilière, 13400 Aubagne").First(),
+                JcDecaux.getStationsOfContract(JcDecaux.getContracts()[23]),false);
             
-            
-            Feature feat = OpenStreet.GetInstance().getOSMFeatureFromStrAddress("56 Trav. de la Buzine, 13011 Marseille").First();
-            Feature feat1 = OpenStreet.GetInstance().getOSMFeatureFromStrAddress("9 Rue du Commandant l'Herminier, 76300 Sotteville-lès-Rouen").First();
-
+            Feature feat = OpenStreet.GetInstance().getOSMFeatureFromStrAddress("118 Bd de la Libération, 13004 Marseille").First();
+            Feature feat1 = OpenStreet.GetInstance().getOSMFeatureFromStrAddress("3 Bd Michelet, 13008 Marseille").First();
 
             Console.WriteLine(st.name);
+            
+            Console.WriteLine(OpenStreet.GetInstance().getDirectionFromStationToStation(st,st2).Count);
 
         }
     }

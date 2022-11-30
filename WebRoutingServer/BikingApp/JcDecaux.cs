@@ -81,8 +81,8 @@ namespace WebRoutingServer
 
         private double Distance(double[] coordinates, double[] position)
         {
-            double x = coordinates[1] - position[0];
-            double y = coordinates[0]- position[1];
+            double x = coordinates[0] - position[0];
+            double y = coordinates[1]- position[1];
             return Math.Sqrt(x * x + y * y);
         }
         // get contract by name and get closest station by contract
@@ -137,8 +137,8 @@ namespace WebRoutingServer
         public double[] ToDoubleArray()
         {
             double[] res = new double[2];
-            res[0] = latitude;
-            res[1] = longitude;
+            res[1] = latitude;
+            res[0] = longitude;
             return res;
         }
     }

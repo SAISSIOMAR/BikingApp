@@ -82,6 +82,11 @@ namespace WebRoutingServer
             return distance(bikepath) >= distance(footpath);
 
         }
+        public List<Step> getDirectionFromStationToStation(JCDStation s1, JCDStation s2)
+        {
+           
+            return getItinerariesFromApi(s1.position.ToDoubleArray(), s2.position.ToDoubleArray(), "foot-walking");
+        }
 
 
         public List<Step> getDirections(JCDStation startingStation, JCDStation destinationStation, Feature startingFeature, Feature destinationFeature)
