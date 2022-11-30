@@ -13,7 +13,7 @@ namespace BikingApp
     public interface IServiceItinerary
     {
         [OperationContract]
-        List<Step> getItinerary(String source, String Destination);
+        List<Step> getItinerary(String source, String destination,bool start);
 
 
         // TODO: ajoutez vos opérations de service ici

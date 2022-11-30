@@ -22,6 +22,8 @@ namespace WebRoutingServer
             }
             return instance;
         }
+        //getfeaturefromstring
+        
         public List<Feature> getOSMFeatureFromStrAddress(string address)
         {
             string query = "text=" + address;
@@ -45,17 +47,18 @@ namespace WebRoutingServer
         public List<Step> getPath(JCDStation startingStation , JCDStation destinationStation, Feature startingFeature, Feature destinationFeature)
         {
             List<Step> footPath = getDirectionFromOriginToDestinationFootWalking(startingFeature,destinationFeature);
-            List<Step> bikingPath = getDirections(startingStation, destinationStation, startingFeature, destinationFeature);
+            
 
-            if (startingStation == null || destinationStation == null)
+            if ((startingStation == null || destinationStation == null)||(startingStation==destinationStation))
             {
                 return footPath;
             }
-
+            List<Step> bikingPath = getDirections(startingStation, destinationStation, startingFeature, destinationFeature);
             if (needFoot( bikingPath,footPath))
             {
                 return footPath ;
             }
+
             return bikingPath ;
 
         }

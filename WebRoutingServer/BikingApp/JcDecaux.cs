@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Text.Json;
 using System.ServiceModel.Configuration;
+using System.Numerics;
 
 namespace WebRoutingServer
 {
@@ -46,8 +47,8 @@ namespace WebRoutingServer
 
 
 
-
-        public static List<JCDStation> getStationsOfContract(JCDContract contract)
+        
+        public static  List<JCDStation> getStationsOfContract(JCDContract contract)
         {
             string response = JCDecauxAPICall("stations", "contract=" + contract.name).Result;
             return JsonSerializer.Deserialize<List<JCDStation>>(response);
@@ -69,13 +70,19 @@ namespace WebRoutingServer
             }
             return closestStation;
         }
-        
 
         
+
+       
+
+
+
+
+
         private double Distance(double[] coordinates, double[] position)
         {
-            double x = coordinates[0] - position[0];
-            double y = coordinates[1] - position[1];
+            double x = coordinates[1] - position[0];
+            double y = coordinates[0]- position[1];
             return Math.Sqrt(x * x + y * y);
         }
         // get contract by name and get closest station by contract
@@ -93,12 +100,9 @@ namespace WebRoutingServer
             return null;
         }
         //get closest station by contract
-        public JCDStation getClosestStationByContract(JCDContract contract, Feature feature , bool start)
-        {
-            List<JCDStation> stations = getStationsOfContract(contract);
-            return getClosestStation(feature, stations,start);
-        }
-        //get closest contracts by coordinates
+        
+        //Find the JC Decaux contract associated with the given origin/destination
+        
 
 
 
@@ -106,7 +110,7 @@ namespace WebRoutingServer
 
 
 
-       
+
 
 
 

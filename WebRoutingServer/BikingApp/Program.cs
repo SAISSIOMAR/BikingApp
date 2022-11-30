@@ -42,9 +42,19 @@ namespace BikingApp
 
             Console.WriteLine("Service is host at " + DateTime.Now.ToString());
             Console.WriteLine("Host is running... Press <Enter> key to stop");
+            foreach (JCDContract item in JcDecaux.getContracts())
+            {
+                Console.WriteLine(item.name);
+            }
+            JCDStation st = JcDecaux.GetInstance().getClosestStation(OpenStreet.GetInstance().getOSMFeatureFromStrAddress("105 Rue de Lodi, 13006 Marseille").First(), JcDecaux.getStationsOfContract(JcDecaux.getContracts()[23]), true);
+           
+            
+            
+            Feature feat = OpenStreet.GetInstance().getOSMFeatureFromStrAddress("56 Trav. de la Buzine, 13011 Marseille").First();
+            Feature feat1 = OpenStreet.GetInstance().getOSMFeatureFromStrAddress("9 Rue du Commandant l'Herminier, 76300 Sotteville-lès-Rouen").First();
 
 
-            Console.WriteLine(OpenStreet.GetInstance().getOSMFeatureFromStrAddress("65 Rue de France, 06000 Nice").Count);
+            Console.WriteLine(st.name);
 
         }
     }
