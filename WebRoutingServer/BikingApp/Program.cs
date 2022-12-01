@@ -46,17 +46,17 @@ namespace BikingApp
             {
                 Console.WriteLine(item.name);
             }
-            JCDStation st = JcDecaux.GetInstance().getClosestStation(OpenStreet.GetInstance().getOSMFeatureFromStrAddress("34 Bd Lavéran, 13013 Marseille").First(),
+            JCDStation st = JcDecaux.GetInstance().getClosestStation(OpenStreet.GetInstance().getOSMFeatureFromStrAddress("1865 Chem. de la Nerthe, 13016 Marseille").First(),
                 JcDecaux.getStationsOfContract(JcDecaux.getContracts()[23]),true);
-            JCDStation st2 = JcDecaux.GetInstance().getClosestStation(OpenStreet.GetInstance().getOSMFeatureFromStrAddress("Chem. de la Thuilière, 13400 Aubagne").First(),
+            JCDStation st2 = JcDecaux.GetInstance().getClosestStation(OpenStreet.GetInstance().getOSMFeatureFromStrAddress("317 Bd du Redon, 13009 Marseille").First(),
                 JcDecaux.getStationsOfContract(JcDecaux.getContracts()[23]),false);
             
-            Feature feat = OpenStreet.GetInstance().getOSMFeatureFromStrAddress("118 Bd de la Libération, 13004 Marseille").First();
-            Feature feat1 = OpenStreet.GetInstance().getOSMFeatureFromStrAddress("3 Bd Michelet, 13008 Marseille").First();
-
-            Console.WriteLine(st.name);
+            Feature feat = OpenStreet.GetInstance().getOSMFeatureFromStrAddress("Pl. de la Cathédrale, 76000 Rouen").First();
+            Feature feat1 = OpenStreet.GetInstance().getOSMFeatureFromStrAddress("317 Bd du Redon, 13009 Marseille").First();
             
-            Console.WriteLine(OpenStreet.GetInstance().getDirectionFromStationToStation(st,st2).Count);
+           
+        
+            Console.WriteLine(JcDecaux.GetInstance().GetContratForPosition(feat).name); ;
 
         }
     }

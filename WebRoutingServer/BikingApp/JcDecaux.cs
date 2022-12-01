@@ -10,6 +10,8 @@ using System.Threading.Tasks;
 using System.Text.Json;
 using System.ServiceModel.Configuration;
 using System.Numerics;
+using static System.Collections.Specialized.BitVector32;
+using System.Diagnostics.Contracts;
 
 namespace WebRoutingServer
 {
@@ -45,7 +47,18 @@ namespace WebRoutingServer
         }
 
 
-
+        //getallstations
+        public static List<JCDStation> getAllStations()
+        {
+            List<JCDStation> stations = new List<JCDStation>();
+            foreach (JCDContract contract in contracts)
+            {
+                string response = JCDecauxAPICall("stations", "contract=" + contract.name).Result;
+                List<JCDStation> contractStations = JsonSerializer.Deserialize<List<JCDStation>>(response);
+                stations.AddRange(contractStations);
+            }
+            return stations;
+        }
 
         
         public static  List<JCDStation> getStationsOfContract(JCDContract contract)
@@ -99,10 +112,28 @@ namespace WebRoutingServer
             }
             return null;
         }
+
+        public  JCDContract GetContratForPosition(Feature feature)
+        {
+            JCDContract contract = null;
+            List<JCDContract> contracts = getContracts();
+            foreach (JCDContract c in contracts)
+            {
+                List<JCDStation> stations = getStationsOfContract(c);
+                JCDStation station = getClosestStation(feature, stations, true);
+                if (station.position.latitude == feature.geometry.coordinates[0] && station.position.longitude == feature.geometry.coordinates[1]
+)
+                {
+                    contract = c;
+                    break;
+                }
+            }
+            return contract;
+        }
         //get closest station by contract
-        
+
         //Find the JC Decaux contract associated with the given origin/destination
-        
+
 
 
 
@@ -127,6 +158,7 @@ namespace WebRoutingServer
         public string name { get; set; }
         public Position position { get; set; }
         public Stands totalStands { get; set; }
+        public string contractName { get; set; }
     }
 
     public class Position
