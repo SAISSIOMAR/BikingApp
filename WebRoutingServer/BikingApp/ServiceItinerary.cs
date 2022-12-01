@@ -13,13 +13,18 @@ namespace BikingApp
     {
         public List<Step> getItinerary(string source, string destination,bool start)
         {
-            
-
-
-            // get contract by name pour source et destination
-            // get closest station by contract
-            // get itinerary
-            // return itinerary
+            List<Feature> featuresOrigin = OpenStreet.GetInstance().getOSMFeatureFromStrAddress(source);
+            List<Feature> featuresDestination = OpenStreet.GetInstance().getOSMFeatureFromStrAddress(destination);
+            if (start || (featuresOrigin.Count == 1 && featuresDestination.Count == 1)){
+                Feature featSource = featuresOrigin.First();
+                Feature featDestination = featuresDestination.First();
+                JCDContract contract = JcDecaux.GetInstance().GetContratForPosition(featSource);//1
+                JCDContract contract2 = JcDecaux.GetInstance().GetContratForPosition(featDestination);//2
+                //for test just commente 1 and 2 and replace contract with getcontract(0) li hiya rouen because for now we don't have getcontract by position
+                JCDStation st = JcDecaux.GetInstance().getClosestStation(featSource, JcDecaux.getStationsOfContract(contract), start);
+                JCDStation st2 = JcDecaux.GetInstance().getClosestStation(featDestination, JcDecaux.getStationsOfContract(contract), !start);
+                return OpenStreet.GetInstance().getPath(st, st2, featSource, featDestination);
+            }
             return null;
         }
     }

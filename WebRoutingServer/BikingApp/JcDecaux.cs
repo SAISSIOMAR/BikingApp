@@ -120,12 +120,13 @@ namespace WebRoutingServer
             foreach (JCDContract c in contracts)
             {
                 List<JCDStation> stations = getStationsOfContract(c);
-                JCDStation station = getClosestStation(feature, stations, true);
-                if (station.position.latitude == feature.geometry.coordinates[0] && station.position.longitude == feature.geometry.coordinates[1]
-)
+          
+                foreach (JCDStation s in stations)
                 {
-                    contract = c;
-                    break;
+                    if (s.position.latitude == feature.geometry.coordinates[0] && s.position.longitude == feature.geometry.coordinates[1])
+                    {
+                        return c;
+                    }
                 }
             }
             return contract;
