@@ -17,7 +17,7 @@ namespace BikingApp
             //Create a URI to serve as the base address
             //Be careful to run Visual Studio as Admistrator or to allow VS to open new port netsh command. 
             // Example : netsh http add urlacl url=http://+:80/MyUri user=DOMAIN\user
-            Uri httpUrl = new Uri("http://localhost:8090/BikingAppServer/ServiceItinerary");
+            Uri httpUrl = new Uri("http://localhost:8090/IServiceItinerary/ServiceItinerary");
 
             //Create ServiceHost
             ServiceHost host = new ServiceHost(typeof(ServiceItinerary), httpUrl);
@@ -30,7 +30,7 @@ namespace BikingApp
             // ServiceHost host = new ServiceHost(typeof(MyCalculatorService.SimpleCalculator), httpUrl, tcpUrl);
 
             //Add a service endpoint
-            host.AddServiceEndpoint(typeof(IServiceItinerary), new WSHttpBinding(), "");
+            //host.AddServiceEndpoint(typeof(IServiceItinerary), new WSHttpBinding(), "");
 
             //Enable metadata exchange
             ServiceMetadataBehavior smb = new ServiceMetadataBehavior();
@@ -42,7 +42,8 @@ namespace BikingApp
 
             Console.WriteLine("Service is host at " + DateTime.Now.ToString());
             Console.WriteLine("Host is running... Press <Enter> key to stop");
-            
+            Console.ReadLine();
+
             JCDStation st = JcDecaux.GetInstance().getClosestStation(OpenStreet.GetInstance().getOSMFeatureFromStrAddress("1865 Chem. de la Nerthe, 13016 Marseille").First(),
                 JcDecaux.getStationsOfContract(JcDecaux.getContracts()[23]),true);
             JCDStation st2 = JcDecaux.GetInstance().getClosestStation(OpenStreet.GetInstance().getOSMFeatureFromStrAddress("317 Bd du Redon, 13009 Marseille").First(),
@@ -52,18 +53,9 @@ namespace BikingApp
             Feature feat1 = OpenStreet.GetInstance().getOSMFeatureFromStrAddress("317 Bd du Redon, 13009 Marseille").First();
 
 
-            ServiceItinerary si = new ServiceItinerary();
-
-            List<Step> s1 = si.getItinerary("114B Av. des Martyrs de la Résistance, 76100 Rouen", "1 Rue Albert Dupuis, 76044 Rouen", true);
-
-
-
-
-            foreach (Step s in s1)
-            {
-                Console.WriteLine(s.instruction);
-            }
             
+
+
         }
     }
 }
