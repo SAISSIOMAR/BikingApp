@@ -1,10 +1,13 @@
 ﻿using Nest;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Security.Policy;
 using System.Text;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace WebRoutingServer
@@ -119,8 +122,9 @@ namespace WebRoutingServer
             List<Step> listSegments = JsonSerializer.Deserialize<List<Step>>(segments);
             return listSegments;
         }
-   
-}
+        
+
+    }
 
 public class Feature
     {
@@ -138,6 +142,7 @@ public class Feature
     public class Properties
     {
         public string label { get; set; }
+        public string locality { get; set; }
     }
 
     public class Itinerary
@@ -156,10 +161,12 @@ public class Step
         public string instruction { get; set; }
         public string name { get; set; }
     // methode that converts list<Step> to Itinerary
- 
-    
-
-}
+    }
+    public class Summary
+    {
+        public double distance { get; set; }
+        public double duration { get; set; }
+    }
 
 
 

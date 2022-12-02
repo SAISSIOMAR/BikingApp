@@ -18,8 +18,8 @@ namespace BikingApp
             if (start || (featuresOrigin.Count == 1 && featuresDestination.Count == 1)){
                 Feature featSource = featuresOrigin.First();
                 Feature featDestination = featuresDestination.First();
-                JCDContract contract = JcDecaux.GetInstance().GetContratForPosition(featSource);//1
-                JCDContract contract2 = JcDecaux.GetInstance().GetContratForPosition(featDestination);//2
+                JCDContract contract = JcDecaux.GetInstance().GetContratForPosition(source);//1
+                JCDContract contract2 = JcDecaux.GetInstance().GetContratForPosition(destination);//2
                 //for test just commente 1 and 2 and replace contract with getcontract(0) li hiya rouen because for now we don't have getcontract by position
                 JCDStation st = JcDecaux.GetInstance().getClosestStation(featSource, JcDecaux.getStationsOfContract(contract), start);
                 JCDStation st2 = JcDecaux.GetInstance().getClosestStation(featDestination, JcDecaux.getStationsOfContract(contract), !start);

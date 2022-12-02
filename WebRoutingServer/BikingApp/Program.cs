@@ -42,22 +42,28 @@ namespace BikingApp
 
             Console.WriteLine("Service is host at " + DateTime.Now.ToString());
             Console.WriteLine("Host is running... Press <Enter> key to stop");
-            foreach (JCDContract item in JcDecaux.getContracts())
-            {
-                Console.WriteLine(item.name);
-            }
+            
             JCDStation st = JcDecaux.GetInstance().getClosestStation(OpenStreet.GetInstance().getOSMFeatureFromStrAddress("1865 Chem. de la Nerthe, 13016 Marseille").First(),
                 JcDecaux.getStationsOfContract(JcDecaux.getContracts()[23]),true);
             JCDStation st2 = JcDecaux.GetInstance().getClosestStation(OpenStreet.GetInstance().getOSMFeatureFromStrAddress("317 Bd du Redon, 13009 Marseille").First(),
                 JcDecaux.getStationsOfContract(JcDecaux.getContracts()[23]),false);
             
-            Feature feat = OpenStreet.GetInstance().getOSMFeatureFromStrAddress("Pl. de la Cathédrale, 76000 Rouen").First();
+            Feature feat = OpenStreet.GetInstance().getOSMFeatureFromStrAddress("rouen").First();
             Feature feat1 = OpenStreet.GetInstance().getOSMFeatureFromStrAddress("317 Bd du Redon, 13009 Marseille").First();
-            
-           
-        
-            Console.WriteLine(JcDecaux.GetInstance().GetContratForPosition(feat).name); ;
 
+
+            ServiceItinerary si = new ServiceItinerary();
+
+            List<Step> s1 = si.getItinerary("114B Av. des Martyrs de la Résistance, 76100 Rouen", "1 Rue Albert Dupuis, 76044 Rouen", true);
+
+
+
+
+            foreach (Step s in s1)
+            {
+                Console.WriteLine(s.instruction);
+            }
+            
         }
     }
 }

@@ -113,23 +113,19 @@ namespace WebRoutingServer
             return null;
         }
 
-        public  JCDContract GetContratForPosition(Feature feature)
+        
+
+        public JCDContract GetContratForPosition(string adress )
         {
-            JCDContract contract = null;
             List<JCDContract> contracts = getContracts();
             foreach (JCDContract c in contracts)
             {
-                List<JCDStation> stations = getStationsOfContract(c);
-          
-                foreach (JCDStation s in stations)
+                if (OpenStreet.GetInstance().getOSMFeatureFromStrAddress(adress).First().properties.locality.ToLower() == c.name.ToLower())
                 {
-                    if (s.position.latitude == feature.geometry.coordinates[0] && s.position.longitude == feature.geometry.coordinates[1])
-                    {
-                        return c;
-                    }
+                    return c;
                 }
             }
-            return contract;
+            return null;
         }
         //get closest station by contract
 
