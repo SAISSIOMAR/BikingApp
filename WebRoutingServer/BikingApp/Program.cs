@@ -42,18 +42,22 @@ namespace BikingApp
 
             Console.WriteLine("Service is host at " + DateTime.Now.ToString());
             Console.WriteLine("Host is running... Press <Enter> key to stop");
-            Console.ReadLine();
-
-            JCDStation st = JcDecaux.GetInstance().getClosestStation(OpenStreet.GetInstance().getOSMFeatureFromStrAddress("1865 Chem. de la Nerthe, 13016 Marseille").First(),
-                JcDecaux.getStationsOfContract(JcDecaux.getContracts()[23]),true);
-            JCDStation st2 = JcDecaux.GetInstance().getClosestStation(OpenStreet.GetInstance().getOSMFeatureFromStrAddress("317 Bd du Redon, 13009 Marseille").First(),
-                JcDecaux.getStationsOfContract(JcDecaux.getContracts()[23]),false);
             
-            Feature feat = OpenStreet.GetInstance().getOSMFeatureFromStrAddress("rouen").First();
-            Feature feat1 = OpenStreet.GetInstance().getOSMFeatureFromStrAddress("317 Bd du Redon, 13009 Marseille").First();
+
+           
+            ServiceItinerary si = new ServiceItinerary();
+            List<Step> s1 = si.getItinerary("65 Av. Jean Rondeaux, 76100 Rouen", "2 Rue du Nouveau Monde, 76100 Rouen", true);
 
 
-            
+
+
+            foreach (Step s in s1)
+            {
+                Console.WriteLine(s.instruction);
+            }
+
+
+
 
 
         }

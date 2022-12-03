@@ -5,6 +5,8 @@ VisualStudioVersion = 17.4.33103.184
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BikingApp", "BikingApp\BikingApp.csproj", "{6DCE50A0-77B4-4029-BB08-87EA03F8F794}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProxyService", "ProxyService\ProxyService.csproj", "{257D9C6A-4900-4EF0-94E3-8E4D000BF1EA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{6DCE50A0-77B4-4029-BB08-87EA03F8F794}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6DCE50A0-77B4-4029-BB08-87EA03F8F794}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6DCE50A0-77B4-4029-BB08-87EA03F8F794}.Release|Any CPU.Build.0 = Release|Any CPU
+		{257D9C6A-4900-4EF0-94E3-8E4D000BF1EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{257D9C6A-4900-4EF0-94E3-8E4D000BF1EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{257D9C6A-4900-4EF0-94E3-8E4D000BF1EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{257D9C6A-4900-4EF0-94E3-8E4D000BF1EA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

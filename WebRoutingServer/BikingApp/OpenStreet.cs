@@ -49,20 +49,24 @@ namespace WebRoutingServer
 
         public List<Step> getPath(JCDStation startingStation , JCDStation destinationStation, Feature startingFeature, Feature destinationFeature)
         {
+            List<Step> step;
             List<Step> footPath = getDirectionFromOriginToDestinationFootWalking(startingFeature,destinationFeature);
-            
-
-            if ((startingStation == null || destinationStation == null)||(startingStation==destinationStation))
-            {
-                return footPath;
-            }
             List<Step> bikingPath = getDirections(startingStation, destinationStation, startingFeature, destinationFeature);
-            if (needFoot( bikingPath,footPath))
-            {
-                return footPath ;
-            }
 
-            return bikingPath ;
+            if ((startingStation == null || destinationStation == null)||(startingStation==destinationStation) || needFoot(bikingPath, footPath))
+            {
+                Console.WriteLine("***************************walkingPath***************************");
+                step = footPath;
+            }
+            else
+            {
+                {
+                    Console.WriteLine("**********************************usingBike**********************************");
+                    step = bikingPath;
+                }
+            }
+          
+            return step ;
 
         }
 
@@ -75,7 +79,7 @@ namespace WebRoutingServer
             double distance = 0;
             foreach (Step step in steps)
             {
-                distance += step.distance;
+                distance += step.duration;
             }
             return distance;
         }
@@ -99,14 +103,17 @@ namespace WebRoutingServer
             List<Step> res3 = getItinerariesFromApi(destinationStation.position.ToDoubleArray(),destinationFeature.geometry.coordinates, "foot-walking");
             res1.AddRange(res2);
             res1.AddRange(res3);
+            
             return res1;
             
         }
         
         public List<Step> getDirectionFromOriginToDestinationFootWalking(Feature startingFeature, Feature destinationFeature)
         {
+            
             Double[] startingCoordinates = startingFeature.geometry.coordinates;
             Double[] destinationCoordinates = destinationFeature.geometry.coordinates;
+           
             return getItinerariesFromApi(startingCoordinates, destinationCoordinates, "foot-walking");
         }
 
