@@ -12,25 +12,18 @@ using System.ServiceModel.Configuration;
 using System.Numerics;
 using static System.Collections.Specialized.BitVector32;
 using System.Diagnostics.Contracts;
+using BikingApp.ServiceProxyCache;
+using static BikingApp.ServiceProxyCache.Position;
+
 
 namespace WebRoutingServer
 {
-    public  class JcDecaux
+    public class JcDecaux
     {
-        private static string  apiUrl = "https://api.jcdecaux.com/vls/v3/";
-        private static string apikey = "894af26c2e703588ce385d3676ed52b166f9e904";
+       
         private static JcDecaux instance;
-        private static string query = "apiKey=894af26c2e703588ce385d3676ed52b166f9e904"  ;
-        private static string response = JCDecauxAPICall("contracts").Result;
-        private static List<JCDContract> contracts = JsonSerializer.Deserialize<List<JCDContract>>(response);
-
-        public static async Task<string> JCDecauxAPICall(string url = "", string query = "")
-        {
-            HttpClient client = new HttpClient();
-            HttpResponseMessage response = await client.GetAsync(apiUrl + url + "?apiKey=894af26c2e703588ce385d3676ed52b166f9e904" + "&" + query);
-            response.EnsureSuccessStatusCode();
-            return await response.Content.ReadAsStringAsync();
-        }
+      
+        static ServiceProxyClient proxy = new ServiceProxyClient();
 
         public static JcDecaux GetInstance()
         {
@@ -43,38 +36,24 @@ namespace WebRoutingServer
 
         public static List<JCDContract> getContracts()
         {
-            return contracts;
+
+            return proxy.getContracts().ToList();
         }
 
 
-        //getallstations
-        public static List<JCDStation> getAllStations()
+        public static List<JCDStation> getStationsOfContract(JCDContract contract)
         {
-            List<JCDStation> stations = new List<JCDStation>();
-            foreach (JCDContract contract in contracts)
-            {
-                string response = JCDecauxAPICall("stations", "contract=" + contract.name).Result;
-                List<JCDStation> contractStations = JsonSerializer.Deserialize<List<JCDStation>>(response);
-                stations.AddRange(contractStations);
-            }
-            return stations;
+            return proxy.getStationsOfContract(contract).ToList();
         }
-
-        
-        public static  List<JCDStation> getStationsOfContract(JCDContract contract)
-        {
-            string response = JCDecauxAPICall("stations", "contract=" + contract.name).Result;
-            return JsonSerializer.Deserialize<List<JCDStation>>(response);
-        }
-        public JCDStation getClosestStation(Feature feature, List<JCDStation> stations,bool start)
+        public JCDStation getClosestStation(Feature feature, List<JCDStation> stations, bool start)
         {
             JCDStation closestStation = null;
             double closestDistanceFromStation = 0;
             foreach (JCDStation station in stations)
-            {   
-                
-                double distanceCalculated = Distance(feature.geometry.coordinates, station.position.ToDoubleArray());
-                int standsOrBikesAvailability = start ? station.totalStands.availabilities.bikes : station.totalStands.availabilities.stands;
+            {
+
+                double distanceCalculated = Distance(feature.geometry.coordinates, ToDoubleArray(station.position));
+                int standsOrBikesAvailability = 1;
                 if (closestStation == null || (distanceCalculated <= closestDistanceFromStation && standsOrBikesAvailability > 0))
                 {
                     closestStation = station;
@@ -84,18 +63,24 @@ namespace WebRoutingServer
             return closestStation;
         }
 
-        
 
+        public double[] ToDoubleArray(Position pos)
+        {
+            double[] res = new double[2];
+            pos = new Position();
+            if (pos != null)
+            {
+                res[1] = pos.latitude;
+                res[0] = pos.longitude;
+            }
        
-
-
-
-
+            return res;
+        }
 
         private double Distance(double[] coordinates, double[] position)
         {
             double x = coordinates[0] - position[0];
-            double y = coordinates[1]- position[1];
+            double y = coordinates[1] - position[1];
             return Math.Sqrt(x * x + y * y);
         }
         // get contract by name and get closest station by contract
@@ -103,7 +88,7 @@ namespace WebRoutingServer
         //get contract by name 
         public JCDContract getContractByName(string name)
         {
-            foreach (JCDContract contract in contracts)
+            foreach (JCDContract contract in getContracts())
             {
                 if (contract.name == name)
                 {
@@ -113,9 +98,9 @@ namespace WebRoutingServer
             return null;
         }
 
-        
 
-        public JCDContract GetContratForPosition(string adress )
+
+        public JCDContract GetContratForPosition(string adress)
         {
             List<JCDContract> contracts = getContracts();
             foreach (JCDContract c in contracts)
@@ -127,59 +112,10 @@ namespace WebRoutingServer
             }
             return null;
         }
-        //get closest station by contract
-
-        //Find the JC Decaux contract associated with the given origin/destination
-
-
-
-
-
-
-
-
-
-
-
-
-
-    }
-    public class JCDContract
-    {
-        public string name { get; set; }
-    }
-
-    public class JCDStation
-    {
-        public int number { get; set; }
-        public string name { get; set; }
-        public Position position { get; set; }
-        public Stands totalStands { get; set; }
-        public string contractName { get; set; }
-    }
-
-    public class Position
-    {
-        public Double latitude { get; set; }
-        public Double longitude { get; set; }
-     
-        public double[] ToDoubleArray()
-        {
-            double[] res = new double[2];
-            res[1] = latitude;
-            res[0] = longitude;
-            return res;
-        }
-    }
-    public class Stands
-    {
-        public Availability availabilities { get; set; }
-        public int capacity { get; set; }
-    }
-
-    public class Availability
-    {
-        public int bikes { get; set; }
-        public int stands { get; set; }
     }
 }
+  
+    
+
+    
+

@@ -42,11 +42,14 @@ namespace BikingApp
 
             Console.WriteLine("Service is host at " + DateTime.Now.ToString());
             Console.WriteLine("Host is running... Press <Enter> key to stop");
-            
+            string[] fruits = { "apple", "passionfruit", "banana", "mango",
+                      "orange", "blueberry", "grape", "strawberry" };
 
-           
+
             ServiceItinerary si = new ServiceItinerary();
-            List<Step> s1 = si.getItinerary("65 Av. Jean Rondeaux, 76100 Rouen", "2 Rue du Nouveau Monde, 76100 Rouen", true);
+
+            List<Step> s1 = si.getItinerary("111B Av. des Martyrs de la Résistance, 76100 Rouen", "1 Rue Albert Dupuis, 76044 Rouen", true);
+            
 
 
 
@@ -55,6 +58,7 @@ namespace BikingApp
             {
                 Console.WriteLine(s.instruction);
             }
+           
 
 
 

@@ -5,17 +5,19 @@ using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using static System.Collections.Specialized.BitVector32;
 
 namespace ProxyService
 {
     internal class JCDecauxItem
     {
+        private const string CacheItem = "contracts";
         private static string apiUrl = "https://api.jcdecaux.com/vls/v3/";
         private static string apikey = "894af26c2e703588ce385d3676ed52b166f9e904";
-        private static JcDecaux instance;
+        private static JCDecauxItem instance;
         private static string query = "apiKey=894af26c2e703588ce385d3676ed52b166f9e904";
         private static string response = JCDecauxAPICall("contracts").Result;
-        private static List<JCDContract> contracts = JsonSerializer.Deserialize<List<JCDContract>>(response);
+        
 
         public static async Task<string> JCDecauxAPICall(string url = "", string query = "")
         {
@@ -25,116 +27,42 @@ namespace ProxyService
             return await response.Content.ReadAsStringAsync();
         }
 
-        public static JcDecaux GetInstance()
+        public static JCDecauxItem GetInstance()
         {
             if (instance == null)
             {
-                instance = new JcDecaux();
+                instance = new JCDecauxItem();
             }
             return instance;
         }
 
-        public static List<JCDContract> getContracts()
+        public  List<JCDContract> getContracts()
         {
+            GenericProxyCache<List<JCDContract>> proxyCache = new GenericProxyCache<List<JCDContract>>();
+            List<JCDContract> contracts = proxyCache.Get(CacheItem);
+            if (contracts == null)
+            {
+                string response = JCDecauxAPICall("contracts").Result;
+                contracts = JsonSerializer.Deserialize<List<JCDContract>>(response);
+                proxyCache.Set("contracts", contracts);
+            }
             return contracts;
         }
 
 
-        //getallstations
-        public static List<JCDStation> getAllStations()
+        public  List<JCDStation> getStationsOfContract(JCDContract contract)
         {
-            List<JCDStation> stations = new List<JCDStation>();
-            foreach (JCDContract contract in contracts)
+            GenericProxyCache<List<JCDStation>> proxyCache = new GenericProxyCache<List<JCDStation>>();
+            List<JCDStation> stations = proxyCache.Get("stations");
+            if (stations == null)
             {
-                string response = JCDecauxAPICall("stations", "contract=" + contract.name).Result;
-                List<JCDStation> contractStations = JsonSerializer.Deserialize<List<JCDStation>>(response);
-                stations.AddRange(contractStations);
+                string respons = JCDecauxAPICall("stations", "contract=" + contract.name).Result;
+                stations = JsonSerializer.Deserialize<List<JCDStation>>(respons);
+                proxyCache.Set("stations", stations);
             }
+
             return stations;
         }
-
-
-        public static List<JCDStation> getStationsOfContract(JCDContract contract)
-        {
-            string response = JCDecauxAPICall("stations", "contract=" + contract.name).Result;
-            return JsonSerializer.Deserialize<List<JCDStation>>(response);
-        }
-        public JCDStation getClosestStation(Feature feature, List<JCDStation> stations, bool start)
-        {
-            JCDStation closestStation = null;
-            double closestDistanceFromStation = 0;
-            foreach (JCDStation station in stations)
-            {
-
-                double distanceCalculated = Distance(feature.geometry.coordinates, station.position.ToDoubleArray());
-                int standsOrBikesAvailability = start ? station.totalStands.availabilities.bikes : station.totalStands.availabilities.stands;
-                if (closestStation == null || (distanceCalculated <= closestDistanceFromStation && standsOrBikesAvailability > 0))
-                {
-                    closestStation = station;
-                    closestDistanceFromStation = distanceCalculated;
-                }
-            }
-            return closestStation;
-        }
-
-
-
-
-
-
-
-
-
-        private double Distance(double[] coordinates, double[] position)
-        {
-            double x = coordinates[0] - position[0];
-            double y = coordinates[1] - position[1];
-            return Math.Sqrt(x * x + y * y);
-        }
-        // get contract by name and get closest station by contract
-
-        //get contract by name 
-        public JCDContract getContractByName(string name)
-        {
-            foreach (JCDContract contract in contracts)
-            {
-                if (contract.name == name)
-                {
-                    return contract;
-                }
-            }
-            return null;
-        }
-
-
-
-        public JCDContract GetContratForPosition(string adress)
-        {
-            List<JCDContract> contracts = getContracts();
-            foreach (JCDContract c in contracts)
-            {
-                if (OpenStreet.GetInstance().getOSMFeatureFromStrAddress(adress).First().properties.locality.ToLower() == c.name.ToLower())
-                {
-                    return c;
-                }
-            }
-            return null;
-        }
-        //get closest station by contract
-
-        //Find the JC Decaux contract associated with the given origin/destination
-
-
-
-
-
-
-
-
-
-
-
-
 
     }
     public class JCDContract

@@ -51,6 +51,16 @@
             <version>RELEASE</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.codehaus.plexus</groupId>
+            <artifactId>plexus-compiler-javac</artifactId>
+            <version>2.11.1</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.jms</groupId>
+            <artifactId>javax.jms-api</artifactId>
+            <version> 2.0.1</version>
+        </dependency>
     </dependencies>
     <build>
         <plugins>

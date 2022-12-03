@@ -1,0 +1,9 @@
+com\baeldung\soap\ws\client\generated\GetItineraryResponse.class
+com\baeldung\soap\ws\client\generated\IServiceItinerary.class
+com\baeldung\soap\ws\client\generated\ObjectFactory.class
+com\baeldung\soap\ws\client\generated\ServiceItinerary.class
+com\baeldung\soap\ws\client\generated\GetItinerary.class
+com\baeldung\soap\ws\client\generated\package-info.class
+com\baeldung\soap\ws\client\generated\Step.class
+main\Main.class
+com\baeldung\soap\ws\client\generated\ArrayOfStep.class

@@ -3,6 +3,7 @@ package main;
 import com.baeldung.soap.ws.client.generated.ArrayOfStep;
 import com.baeldung.soap.ws.client.generated.IServiceItinerary;
 import com.baeldung.soap.ws.client.generated.ServiceItinerary;
+;
 
 public class Main {
     public static void main(String[] args) {

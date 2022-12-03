@@ -9,6 +9,8 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using BikingApp.ServiceProxyCache;
+using static BikingApp.ServiceProxyCache.Position;
 
 namespace WebRoutingServer
 {
@@ -69,6 +71,17 @@ namespace WebRoutingServer
             return step ;
 
         }
+        public double[] ToDoubleArray(Position pos)
+        {
+            double[] res = new double[2];
+            if (pos != null)
+            {
+                res[1] = pos.latitude;
+                res[0] = pos.longitude;
+            }
+
+            return res;
+        }
 
 
 
@@ -92,15 +105,15 @@ namespace WebRoutingServer
         public List<Step> getDirectionFromStationToStation(JCDStation s1, JCDStation s2)
         {
            
-            return getItinerariesFromApi(s1.position.ToDoubleArray(), s2.position.ToDoubleArray(), "foot-walking");
+            return getItinerariesFromApi(ToDoubleArray(s1.position), ToDoubleArray(s2.position), "foot-walking");
         }
 
 
         public List<Step> getDirections(JCDStation startingStation, JCDStation destinationStation, Feature startingFeature, Feature destinationFeature)
         {
-            List<Step> res1 = getItinerariesFromApi(startingFeature.geometry.coordinates, startingStation.position.ToDoubleArray(), "foot-walking");
-            List<Step> res2 = getItinerariesFromApi(startingStation.position.ToDoubleArray(), destinationStation.position.ToDoubleArray(), "cycling-regular");
-            List<Step> res3 = getItinerariesFromApi(destinationStation.position.ToDoubleArray(),destinationFeature.geometry.coordinates, "foot-walking");
+            List<Step> res1 = getItinerariesFromApi(startingFeature.geometry.coordinates, ToDoubleArray(startingStation.position), "foot-walking");
+            List<Step> res2 = getItinerariesFromApi(ToDoubleArray(startingStation.position), ToDoubleArray(destinationStation.position), "cycling-regular");
+            List<Step> res3 = getItinerariesFromApi(ToDoubleArray(destinationStation.position),destinationFeature.geometry.coordinates, "foot-walking");
             res1.AddRange(res2);
             res1.AddRange(res3);
             

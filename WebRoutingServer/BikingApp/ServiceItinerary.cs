@@ -5,6 +5,7 @@ using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.Text;
 using WebRoutingServer;
+using BikingApp.ServiceProxyCache;
 
 namespace BikingApp
 {
