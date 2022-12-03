@@ -33,3 +33,8 @@ C:\Users\osais\OneDrive\Documents\GitHub\BikingApp\WebRoutingServer\BikingApp\bi
 C:\Users\osais\OneDrive\Documents\GitHub\BikingApp\WebRoutingServer\BikingApp\bin\Debug\System.Threading.Tasks.Extensions.xml
 C:\Users\osais\OneDrive\Documents\GitHub\BikingApp\WebRoutingServer\BikingApp\bin\Debug\System.ValueTuple.xml
 C:\Users\osais\OneDrive\Documents\GitHub\BikingApp\WebRoutingServer\BikingApp\obj\Debug\BikingApp.csproj.CopyComplete
+C:\Users\osais\OneDrive\Documents\GitHub\BikingApp\WebRoutingServer\BikingApp\bin\Debug\Apache.NMS.ActiveMQ.dll
+C:\Users\osais\OneDrive\Documents\GitHub\BikingApp\WebRoutingServer\BikingApp\bin\Debug\Apache.NMS.dll
+C:\Users\osais\OneDrive\Documents\GitHub\BikingApp\WebRoutingServer\BikingApp\bin\Debug\ICSharpCode.SharpZipLib.dll
+C:\Users\osais\OneDrive\Documents\GitHub\BikingApp\WebRoutingServer\BikingApp\bin\Debug\ICSharpCode.SharpZipLib.pdb
+C:\Users\osais\OneDrive\Documents\GitHub\BikingApp\WebRoutingServer\BikingApp\bin\Debug\ICSharpCode.SharpZipLib.xml
