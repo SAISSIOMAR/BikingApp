@@ -49,15 +49,22 @@ namespace WebRoutingServer
         }
 
 
-        public List<Step> getPath(JCDStation startingStation , JCDStation destinationStation, Feature startingFeature, Feature destinationFeature)
+        public List<Step> getPath(JCDStation startingStation, JCDStation destinationStation, Feature startingFeature, Feature destinationFeature)
         {
-            List<Step> step;
-            List<Step> footPath = getDirectionFromOriginToDestinationFootWalking(startingFeature,destinationFeature);
-            List<Step> bikingPath = getDirections(startingStation, destinationStation, startingFeature, destinationFeature);
+            List<Step> footPath = getDirectionFromOriginToDestinationFootWalking(startingFeature, destinationFeature);
 
-            
-          
-            return bikingPath ;
+
+            if ((startingStation == null || destinationStation == null) || (startingStation == destinationStation))
+            {
+                return footPath;
+            }
+            List<Step> bikingPath = getDirections(startingStation, destinationStation, startingFeature, destinationFeature);
+            if (needFoot(bikingPath, footPath))
+            {
+                return footPath;
+            }
+
+            return bikingPath;
 
         }
         public double[] ToDoubleArray(Position pos)
@@ -102,7 +109,7 @@ namespace WebRoutingServer
         {
             Console.WriteLine("------------------------------------------------------------");
             List<Step> res1 = getItinerariesFromApi(startingFeature.geometry.coordinates, ToDoubleArray(startingStation.position), "foot-walking");
-            List<Step> res2 = getItinerariesFromApi(ToDoubleArray(startingStation.position), ToDoubleArray(destinationStation.position), "foot-walking");
+            List<Step> res2 = getItinerariesFromApi(ToDoubleArray(startingStation.position), ToDoubleArray(destinationStation.position), "cycling-regular");
             List<Step> res3 = getItinerariesFromApi(ToDoubleArray(destinationStation.position),destinationFeature.geometry.coordinates, "foot-walking");
             List<Step> st = new List<Step>();
             st.Add(new Step("walk"));

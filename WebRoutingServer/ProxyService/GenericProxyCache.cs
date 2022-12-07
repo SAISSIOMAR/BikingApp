@@ -23,7 +23,7 @@ namespace ProxyService
                 T res = default(T);
                 if (res != null)
                 {
-                    this._cache.Add(CacheItem, res, null);
+                    this._cache.Add(CacheItem, res, ObjectCache.InfiniteAbsoluteExpiration);
                 }
                 return res;
             }
@@ -61,20 +61,12 @@ namespace ProxyService
 
             }
         }
-        public void Set(string CacheItem, T objectToStore)
-        {
-            this._cache.Add(CacheItem, objectToStore, null);
-
-        }
+        
         public void Set(string CacheItem, T objectToStore, double dt)
         {
             this._cache.Add(CacheItem, objectToStore, DateTimeOffset.Now.AddSeconds(dt));
 
         }
-        public void Set(string CacheItem, T objectToStore, DateTimeOffset dt)
-        {
-            this._cache.Add(CacheItem, objectToStore, dt);
-
-        }
+        
     }
 }

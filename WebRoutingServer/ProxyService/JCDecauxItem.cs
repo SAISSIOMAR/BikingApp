@@ -44,7 +44,7 @@ namespace ProxyService
             {
                 string response = JCDecauxAPICall("contracts").Result;
                 contracts = JsonSerializer.Deserialize<List<JCDContract>>(response);
-                proxyCache.Set("contracts", contracts);
+                proxyCache.Set("contracts", contracts,180);
             }
             return contracts;
         }
@@ -58,7 +58,7 @@ namespace ProxyService
             {
                 string respons = JCDecauxAPICall("stations", "contract=" + contract.name).Result;
                 stations = JsonSerializer.Deserialize<List<JCDStation>>(respons);
-                proxyCache.Set("stations", stations);
+                proxyCache.Set("stations", stations,180);
             }
 
             return stations;
