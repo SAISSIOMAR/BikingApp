@@ -24,6 +24,7 @@ namespace BikingApp
                 //for test just commente 1 and 2 and replace contract with getcontract(0) li hiya rouen because for now we don't have getcontract by position
                 JCDStation st = JcDecaux.GetInstance().getClosestStation(featSource, JcDecaux.getStationsOfContract(contract), start);
                 JCDStation st2 = JcDecaux.GetInstance().getClosestStation(featDestination, JcDecaux.getStationsOfContract(contract), !start);
+                ActiveMq.getInstance().send(OpenStreet.GetInstance().getPath(st, st2, featSource, featDestination));
                 return OpenStreet.GetInstance().getPath(st, st2, featSource, featDestination);
             }
             return null;

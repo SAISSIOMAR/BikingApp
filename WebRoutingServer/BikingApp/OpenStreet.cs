@@ -55,20 +55,9 @@ namespace WebRoutingServer
             List<Step> footPath = getDirectionFromOriginToDestinationFootWalking(startingFeature,destinationFeature);
             List<Step> bikingPath = getDirections(startingStation, destinationStation, startingFeature, destinationFeature);
 
-            if ((startingStation == null || destinationStation == null)||(startingStation==destinationStation) || needFoot(bikingPath, footPath))
-            {
-                Console.WriteLine("***************************walkingPath***************************");
-                step = footPath;
-            }
-            else
-            {
-                {
-                    Console.WriteLine("**********************************usingBike**********************************");
-                    step = bikingPath;
-                }
-            }
+            
           
-            return step ;
+            return bikingPath ;
 
         }
         public double[] ToDoubleArray(Position pos)
@@ -111,13 +100,31 @@ namespace WebRoutingServer
 
         public List<Step> getDirections(JCDStation startingStation, JCDStation destinationStation, Feature startingFeature, Feature destinationFeature)
         {
+            Console.WriteLine("------------------------------------------------------------");
             List<Step> res1 = getItinerariesFromApi(startingFeature.geometry.coordinates, ToDoubleArray(startingStation.position), "foot-walking");
             List<Step> res2 = getItinerariesFromApi(ToDoubleArray(startingStation.position), ToDoubleArray(destinationStation.position), "cycling-regular");
             List<Step> res3 = getItinerariesFromApi(ToDoubleArray(destinationStation.position),destinationFeature.geometry.coordinates, "foot-walking");
-            res1.AddRange(res2);
-            res1.AddRange(res3);
+            List<Step> st = new List<Step>();
+            for (int i = 0; i < res1.Count; i++)
+            {
+                st.Insert(0,new Step("walk"));
+                
+                st.Add(res1[i]);
+            }
+            for (int i = 0; i < res2.Count; i++)
+            {
+                st.Add(new Step("*****************************************************bike"));
+                st.Add(res2[i]);
+            }
+            for (int i = 0; i < res3.Count; i++)
+            {
+                st.Add(new Step("walk"));
+                st.Add(res3[i]);
+            }
+            //res1.AddRange(res2);
+            //es1.AddRange(res3);
             
-            return res1;
+            return st;
             
         }
         
@@ -180,7 +187,18 @@ public class Step
         public double duration { get; set; }
         public string instruction { get; set; }
         public string name { get; set; }
-    // methode that converts list<Step> to Itinerary
+
+        public Step()
+        {
+            distance = 0;
+            duration = 0;
+            instruction = "";
+            name = "";
+        }
+        public Step(string ins){
+            instruction = ins;
+        }
+        // methode that converts list<Step> to Itinerary
     }
     public class Summary
     {

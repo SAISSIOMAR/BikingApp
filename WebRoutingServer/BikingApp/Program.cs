@@ -15,6 +15,9 @@ namespace BikingApp
 {
     class Program
     {
+        
+
+        
         static void Main(string[] args)
         {
             //Create a URI to serve as the base address
@@ -52,63 +55,25 @@ namespace BikingApp
             ServiceItinerary si = new ServiceItinerary();
 
             List<Step> s1 = si.getItinerary("111B Av. des Martyrs de la Résistance, 76100 Rouen", "1 Rue Albert Dupuis, 76044 Rouen", true);
-            
 
-
-
-
+            List<Step> s2 = new List<Step>();
+            //s2 = si.getItinerary(string position,string destination, true);
+            String message1 = "";
             foreach (Step s in s1)
             {
-                Console.WriteLine(s.instruction);
-            }
-            // Create a Connection Factory.
-            Uri connecturi = new Uri("activemq:tcp://localhost:61616");
-            ConnectionFactory connectionFactory = new ConnectionFactory(connecturi);
-
-            // Create a single Connection from the Connection Factory.
-            IConnection connection = connectionFactory.CreateConnection();
-            connection.Start();
-
-            // Create a session from the Connection.
-            ISession session = connection.CreateSession();
-
-            // Use the session to target a queue.
-            IDestination destination = session.GetQueue("test");
-
-            // Create a Producer targetting the selected queue.
-            IMessageProducer producer = session.CreateProducer(destination);
-
-            // You may configure everything to your needs, for instance:
-
-
-            // Finally, to send messages:
-            string message1 = "";
-            foreach (Step s in s1)
-            {
-                message1 = message1 + "\n " + s.instruction.ToString();
+                message1 = message1 + "\n" + s.instruction.ToString();
             }
 
-            Console.WriteLine(message1);
-
-            ITextMessage message = session.CreateTextMessage(message1);
-            producer.Send(message);
-
-
-
-
-
-
-
-
-            Console.WriteLine("Message sent, check ActiveMQ web interface to confirm.");
             Console.ReadLine();
 
-            // Don't forget to close your session and connection when finished.
-            session.Close();
-            connection.Close();
+
+            // ActiveMq.getInstance().send(message1);
 
 
-            Console.ReadLine();
+
+
+
+
 
 
 
