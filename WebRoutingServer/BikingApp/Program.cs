@@ -63,6 +63,7 @@ namespace BikingApp
             {
                 message1 = message1 + "\n" + s.instruction.ToString();
             }
+            Console.WriteLine(message1);
 
             Console.ReadLine();
 
