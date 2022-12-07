@@ -102,7 +102,7 @@ namespace WebRoutingServer
         {
             Console.WriteLine("------------------------------------------------------------");
             List<Step> res1 = getItinerariesFromApi(startingFeature.geometry.coordinates, ToDoubleArray(startingStation.position), "foot-walking");
-            List<Step> res2 = getItinerariesFromApi(ToDoubleArray(startingStation.position), ToDoubleArray(destinationStation.position), "cycling-regular");
+            List<Step> res2 = getItinerariesFromApi(ToDoubleArray(startingStation.position), ToDoubleArray(destinationStation.position), "foot-walking");
             List<Step> res3 = getItinerariesFromApi(ToDoubleArray(destinationStation.position),destinationFeature.geometry.coordinates, "foot-walking");
             List<Step> st = new List<Step>();
             st.Add(new Step("walk"));
@@ -116,6 +116,7 @@ namespace WebRoutingServer
             {
                 st.Add(new Step("*****************************************************"+res2.Count+"*********************************************"));
                 st.Add(res2[i]);
+                st.Add(new Step("*****************************************************" + res2.Count + "*********************************************"));
             }
             st.Add(new Step("walk"));
             for (int i = 0; i < res3.Count; i++)

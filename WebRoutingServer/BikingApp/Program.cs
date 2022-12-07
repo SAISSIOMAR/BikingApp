@@ -54,7 +54,7 @@ namespace BikingApp
 
             ServiceItinerary si = new ServiceItinerary();
 
-            List<Step> s1 = si.getItinerary("111B Av. des Martyrs de la Résistance, 76100 Rouen", "1 Rue Albert Dupuis, 76044 Rouen", true);
+            List<Step> s1 = si.getItinerary("Av. du Professeur Jean Dausset, 31300 Toulouse", "3 Av. de l'Aérodrome de Montaudran, 31400 Toulouse", true);
 
             List<Step> s2 = new List<Step>();
             //s2 = si.getItinerary(string position,string destination, true);
