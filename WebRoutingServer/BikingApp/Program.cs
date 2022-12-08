@@ -47,23 +47,7 @@ namespace BikingApp
             //Start the Service
             host.Open();
 
-            Console.WriteLine("Service is host at " + DateTime.Now.ToString());
-            Console.WriteLine("Host is running... Press <Enter> key to stop");
-            string[] fruits = { "apple", "passionfruit", "banana", "mango",
-                      "orange", "blueberry", "grape", "strawberry" };
-
-
-            ServiceItinerary si = new ServiceItinerary();
-
-            List<Step> s1 = si.getItinerary("Av. du Professeur Jean Dausset, 31300 Toulouse", "3 Av. de l'Aérodrome de Montaudran, 31400 Toulouse", true); 
-            foreach (Step s in s1)
-            {
-                Console.WriteLine( s.instruction);
-            }
-
-            Feature f = OpenStreet.GetInstance().getOSMFeatureFromStrAddress("Av. du Professeur Jean Dausset, 31300 Toulouse").First();
-            Feature f2 = OpenStreet.GetInstance().getOSMFeatureFromStrAddress("3 Av. de l'Aérodrome de Montaudran, 31400 Toulouse").First();
-
+            
 
           
            

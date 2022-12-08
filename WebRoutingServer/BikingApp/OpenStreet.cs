@@ -43,7 +43,7 @@ namespace WebRoutingServer
         public static async Task<string> OSMAPICall(string url = "", string query = "")
         {
             HttpClient client = new HttpClient();
-            HttpResponseMessage response = await client.GetAsync(apiUrl + url + "?api_key=5b3ce3597851110001cf6248b1f72132e01b4c559d8134ad67624834" + "&" + query);
+            HttpResponseMessage response = await client.GetAsync(apiUrl + url + "?api_key=5b3ce3597851110001cf62482e656e84693c4ba68b7d533c645acaa1" + "&" + query);
             response.EnsureSuccessStatusCode();
             return await response.Content.ReadAsStringAsync();
         }
@@ -51,17 +51,23 @@ namespace WebRoutingServer
 
         public List<Step> getPath(JCDStation startingStation, JCDStation destinationStation, Feature startingFeature, Feature destinationFeature)
         {
+            List<Step> step;
             List<Step> footPath = getDirectionFromOriginToDestinationFootWalking(startingFeature, destinationFeature);
             List<Step> bikingPath = getDirections(startingStation, destinationStation, startingFeature, destinationFeature);
-
             if ((startingStation == null || destinationStation == null) || (startingStation == destinationStation) || needFoot(bikingPath, footPath))
             {
-                return footPath;
+                Console.WriteLine("***************************walkingPath***************************");
+                step = footPath;
             }
-            
+            else
+            {
+                {
+                    
+                    step = bikingPath;
+                }
+            }
 
-            return bikingPath;
-
+            return step;
         }
         public double[] ToDoubleArray(Position pos)
         {
@@ -103,25 +109,27 @@ namespace WebRoutingServer
 
         public List<Step> getDirections(JCDStation startingStation, JCDStation destinationStation, Feature startingFeature, Feature destinationFeature)
         {
-            Console.WriteLine("------------------------------------------------------------");
+            
             List<Step> res1 = getItinerariesFromApi(startingFeature.geometry.coordinates, ToDoubleArray(startingStation.position), "foot-walking");
             List<Step> res2 = getItinerariesFromApi(ToDoubleArray(startingStation.position), ToDoubleArray(destinationStation.position), "cycling-regular");
             List<Step> res3 = getItinerariesFromApi(ToDoubleArray(destinationStation.position),destinationFeature.geometry.coordinates, "foot-walking");
             List<Step> st = new List<Step>();
-            st.Add(new Step("walk"));
+            
             for (int i = 0; i < res1.Count; i++)
             {
                
                 
                 st.Add(res1[i]);
             }
+            st.Add(new Step("\n*****************************************************using bike*********************************************\n"));
             for (int i = 0; i < res2.Count; i++)
             {
-                st.Add(new Step("*****************************************************"+res2.Count+"*********************************************"));
+                
                 st.Add(res2[i]);
-                st.Add(new Step("*****************************************************" + res2.Count + "*********************************************"));
+                
             }
-            st.Add(new Step("walk"));
+            st.Add(new Step("\n*****************************************************walk again*********************************************\n"));
+           
             for (int i = 0; i < res3.Count; i++)
             {
                 
