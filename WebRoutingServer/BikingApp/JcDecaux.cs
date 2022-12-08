@@ -14,7 +14,7 @@ using static System.Collections.Specialized.BitVector32;
 using System.Diagnostics.Contracts;
 using BikingApp.ServiceProxyCache;
 using static BikingApp.ServiceProxyCache.Position;
-
+using System.ServiceModel;
 
 namespace WebRoutingServer
 {
@@ -24,6 +24,13 @@ namespace WebRoutingServer
         private static JcDecaux instance;
       
         static ServiceProxyClient proxy = new ServiceProxyClient();
+
+        public JcDecaux()
+        {
+            BasicHttpBinding basicHttpBinding = new BasicHttpBinding();
+            basicHttpBinding.MaxReceivedMessageSize = 99999900;
+            basicHttpBinding.MaxBufferSize = 99999900;
+        }
 
         public static JcDecaux GetInstance()
         {
@@ -53,7 +60,7 @@ namespace WebRoutingServer
             {
 
                 double distanceCalculated = Distance(feature.geometry.coordinates, ToDoubleArray(station.position));
-                int standsOrBikesAvailability = 1;
+                int standsOrBikesAvailability = start ? station.totalStands.availabilities.bikes : station.totalStands.availabilities.stands;
                 if (closestStation == null || (distanceCalculated <= closestDistanceFromStation && standsOrBikesAvailability > 0))
                 {
                     closestStation = station;
@@ -67,12 +74,10 @@ namespace WebRoutingServer
         public double[] ToDoubleArray(Position pos)
         {
             double[] res = new double[2];
-            pos = new Position();
-            if (pos != null)
-            {
+            
                 res[1] = pos.latitude;
                 res[0] = pos.longitude;
-            }
+            
        
             return res;
         }
@@ -105,10 +110,11 @@ namespace WebRoutingServer
             List<JCDContract> contracts = getContracts();
             foreach (JCDContract c in contracts)
             {
-                if (OpenStreet.GetInstance().getOSMFeatureFromStrAddress(adress).First().properties.locality.ToLower() == c.name.ToLower())
+                if (OpenStreet.GetInstance().getOSMFeatureFromStrAddress(adress).First().properties.locality.ToLower() == c.name)
                 {
                     return c;
                 }
+                
             }
             return null;
         }

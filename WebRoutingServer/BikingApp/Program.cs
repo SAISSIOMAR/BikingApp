@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using WebRoutingServer;
 using Apache.NMS;
 using Apache.NMS.ActiveMQ;
+using BikingApp.ServiceProxyCache;
 
 
 namespace BikingApp
@@ -54,17 +55,20 @@ namespace BikingApp
 
             ServiceItinerary si = new ServiceItinerary();
 
-            List<Step> s1 = si.getItinerary("Av. du Professeur Jean Dausset, 31300 Toulouse", "3 Av. de l'Aérodrome de Montaudran, 31400 Toulouse", true);
-
-            List<Step> s2 = new List<Step>();
-            //s2 = si.getItinerary(string position,string destination, true);
-            String message1 = "";
+            List<Step> s1 = si.getItinerary("Av. du Professeur Jean Dausset, 31300 Toulouse", "3 Av. de l'Aérodrome de Montaudran, 31400 Toulouse", true); 
             foreach (Step s in s1)
             {
-                message1 = message1 + "\n" + s.instruction.ToString();
+                Console.WriteLine( s.instruction);
             }
-            Console.WriteLine(message1);
 
+            Feature f = OpenStreet.GetInstance().getOSMFeatureFromStrAddress("Av. du Professeur Jean Dausset, 31300 Toulouse").First();
+            Feature f2 = OpenStreet.GetInstance().getOSMFeatureFromStrAddress("3 Av. de l'Aérodrome de Montaudran, 31400 Toulouse").First();
+
+
+          
+           
+            //s2 = si.getItinerary(string position,string destination, true);
+           
             Console.ReadLine();
 
 
