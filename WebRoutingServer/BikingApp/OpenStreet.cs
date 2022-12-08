@@ -43,7 +43,7 @@ namespace WebRoutingServer
         public static async Task<string> OSMAPICall(string url = "", string query = "")
         {
             HttpClient client = new HttpClient();
-            HttpResponseMessage response = await client.GetAsync(apiUrl + url + "?api_key=5b3ce3597851110001cf62481ed7ef1fdae441a3be85474641d157c2" + "&" + query);
+            HttpResponseMessage response = await client.GetAsync(apiUrl + url + "?api_key=5b3ce3597851110001cf6248abefe5114cbf42adb507d1504d3368e6" + "&" + query);
             response.EnsureSuccessStatusCode();
             return await response.Content.ReadAsStringAsync();
         }
@@ -56,7 +56,7 @@ namespace WebRoutingServer
             List<Step> bikingPath = getDirections(startingStation, destinationStation, startingFeature, destinationFeature);
             if ((startingStation == null || destinationStation == null) || (startingStation == destinationStation) || needFoot(bikingPath, footPath))
             {
-                Console.WriteLine("***************************walkingPath***************************");
+                
                 step = footPath;
             }
             else

@@ -47,7 +47,12 @@ namespace BikingApp
             //Start the Service
             host.Open();
 
-            
+            ServiceItinerary si = new ServiceItinerary();
+            List<Step> s1 = si.getItinerary("40 Rue de Lillebonne, 76000 Rouen", "Halle Saint-Exupéry, 24 Bd Gambetta, 76000 Rouen", true);
+            foreach (Step s in s1)
+            {
+                Console.WriteLine(s.instruction);
+            }
 
 
 
