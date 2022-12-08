@@ -43,7 +43,7 @@ namespace WebRoutingServer
         public static async Task<string> OSMAPICall(string url = "", string query = "")
         {
             HttpClient client = new HttpClient();
-            HttpResponseMessage response = await client.GetAsync(apiUrl + url + "?api_key=5b3ce3597851110001cf62482e656e84693c4ba68b7d533c645acaa1" + "&" + query);
+            HttpResponseMessage response = await client.GetAsync(apiUrl + url + "?api_key=5b3ce3597851110001cf62481ed7ef1fdae441a3be85474641d157c2" + "&" + query);
             response.EnsureSuccessStatusCode();
             return await response.Content.ReadAsStringAsync();
         }

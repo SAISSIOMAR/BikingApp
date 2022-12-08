@@ -49,10 +49,11 @@ namespace BikingApp
 
             
 
-          
-           
+
+
+
             //s2 = si.getItinerary(string position,string destination, true);
-           
+
             Console.ReadLine();
 
 
