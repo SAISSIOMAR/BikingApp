@@ -103,7 +103,7 @@ namespace WebRoutingServer
             return null;
         }
 
-        public string getCityFromStrAddress(string addr)
+        public string getLocality(string addr)
         {
             List<Feature> listFeatures = OpenStreet.GetInstance().getOSMFeatureFromStrAddress(addr);
             string city = listFeatures[0].properties.locality;
@@ -113,10 +113,10 @@ namespace WebRoutingServer
         public JCDContract GetContratForPosition(string adress)
         {
             List<JCDContract> contracts = getContracts();
-            string cityAddrMin = getCityFromStrAddress(adress).ToLower();
+            string city = getLocality(adress).ToLower();
             foreach (JCDContract c in contracts)
             {
-                if (cityAddrMin == c.name)
+                if (city == c.name)
                 {
                     return c;
                 }

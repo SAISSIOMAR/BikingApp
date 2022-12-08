@@ -23,6 +23,7 @@ namespace BikingApp
                 JCDContract contract2 = JcDecaux.GetInstance().GetContratForPosition(destination);//2
                 if (contract == null || contract2 == null)
                 {
+                    ActiveMq.getInstance().send(OpenStreet.GetInstance().getDirectionFromOriginToDestinationFootWalking(featSource, featDestination));
                     return OpenStreet.GetInstance().getDirectionFromOriginToDestinationFootWalking(featSource, featDestination);
                 }
                 else { 
